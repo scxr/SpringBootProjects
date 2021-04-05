@@ -12,12 +12,18 @@ public class ProductServices {
     public static List<Product> getProducts() {
         return products;
     }
+<<<<<<< HEAD
     public static String addProduct(String productName, Double productPrice) {
         try {
             products.add(new Product(
                     productName,
                     productPrice
             ));
+=======
+    public static String addProduct(Product product) {
+        try {
+            products.add(product);
+>>>>>>> 5e4a6d716f62ed259794db714c6dce2f98cce419
             return "product added";
         } catch (Exception e) {
             return "Something went wrong : " + e;
@@ -31,6 +37,7 @@ public class ProductServices {
             }
         }
         return "Product not found";
+<<<<<<< HEAD
     }
 
     public static String editProduct(long id, Object obj) {
@@ -38,4 +45,10 @@ public class ProductServices {
         return "";
     }
 
+=======
+
+    }
+
+
+>>>>>>> 5e4a6d716f62ed259794db714c6dce2f98cce419
 }

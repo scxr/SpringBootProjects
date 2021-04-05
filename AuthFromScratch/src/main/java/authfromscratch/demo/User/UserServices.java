@@ -1,28 +1,30 @@
 package authfromscratch.demo.User;
 
 
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ListIterator;
 
+@Service
 public class UserServices {
 
 
-    private static List<User> users = new ArrayList<User>();
+    private static final List<UserMain> userMains = new ArrayList<>();
 
-    public static List<User> getUsers() {
-        return users;
+    public static List<UserMain> getUsers() {
+        return userMains;
     }
 
-    public static String registerUser(User user) {
-        users.add(user);
+    public static String registerUser(UserMain userMain) {
+        userMains.add(userMain);
         return "User added";
     }
     //private static ListIterator<User> userListIterator = users.listIterator();
     public static String removeUserByEmail(Object email) {
-        for (User user : users) {
-            if (user.getEmail().equals(email.toString())) {
-                users.remove(user);
+        for (UserMain userMain : userMains) {
+            if (userMain.getEmail().equals(email.toString())) {
+                userMains.remove(userMain);
                 return "Removed";
             }
         }
@@ -31,13 +33,13 @@ public class UserServices {
 
     public static String changePassword(Object newPassword, Object oldPassword, String email) {
 
-        for (User user: users) {
-            if (user.getEmail().equals(email)) {
-                if (user.getPassword().equals(oldPassword.toString())) {
-                    user.setPassword(newPassword.toString());
+        for (UserMain userMain : userMains) {
+            if (userMain.getEmail().equals(email)) {
+                if (userMain.getPassword().equals(oldPassword.toString())) {
+                    userMain.setPassword(newPassword.toString());
                     return "Password changed";
                 } else {
-                    return oldPassword.toString() + ' ' + user.getPassword();
+                    return oldPassword.toString() + ' ' + userMain.getPassword();
                     //return "Incorrect password";
                 }
             }

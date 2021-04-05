@@ -1,2 +1,16 @@
-package authfromscratch.demo.User;public interface UserRepository {
+package authfromscratch.demo.User;
+
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
+
+@Repository
+public interface UserRepository extends JpaRepository<UserMain, Long> {
+
+    @Query("SELECT u FROM UserMain WHERE u.email=?1")
+    Optional<UserMain> findUserMainByEmail(String email);
+
 }

@@ -3,24 +3,39 @@ package com.store.mystore.Product;
 
 import org.apache.tomcat.jni.Local;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.Random;
 
+
+@Entity
+@Table
 public class Product {
+
+    @Id
+    @SequenceGenerator(
+            name="product_sequence",
+            sequenceName = "product_sequence",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "product_sequence"
+    )
+    private Long id;
     private String productName = null;
     private double productPrice = 0;
     private LocalDate creationDate;
-    private long id;
+
     Random rand = new Random();
 
     public Product(String productName, double productPrice) {
-        this.id = rand.nextInt(1000000);
         this.creationDate = LocalDate.now();
         this.productName = productName;
         this.productPrice = productPrice;
     }
 
-    public Product(String productName, double productPrice, long id) {
+    public Product(Long id, String productName, double productPrice) {
 
         this.productPrice = productPrice;
         this.productName = productName;
@@ -53,11 +68,8 @@ public class Product {
         this.creationDate = creationDate;
     }
 
-    public long getId() {
-        return id;
-    }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -68,5 +80,10 @@ public class Product {
                 ", productPrice=" + productPrice +
                 ", creationDate=" + creationDate +
                 '}';
+    }
+
+
+    public Long getId() {
+        return id;
     }
 }

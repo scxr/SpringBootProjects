@@ -1,13 +1,29 @@
 package com.store.mystore.User;
 
+import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Locale;
 import java.util.Random;
 
+@Entity
+@Table
 public class UserMain {
+    @Id
+    @SequenceGenerator(
+            name="UserMain_generator",
+            sequenceName = "UserMain_generator",
+            allocationSize = 1
+    )
+    @GeneratedValue(
+            strategy = GenerationType.SEQUENCE,
+            generator = "UserMain_generator"
+
+    )
+    private long userID;
+
     private String username;
     private String password;
     private LocalDate joinDate;
-    private long userID;
     private long userRep;
     private long userSales;
     Random rand = new Random();

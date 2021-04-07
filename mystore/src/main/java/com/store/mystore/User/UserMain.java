@@ -26,12 +26,11 @@ public class UserMain {
     private LocalDate joinDate;
     private long userRep;
     private long userSales;
-    Random rand = new Random();
     public UserMain(String username, String password) {
         this.username = username;
         this.password = password;
         this.joinDate = LocalDate.now();
-        this.userID = rand.nextLong();
+
         this.userRep=0;
         this.userSales = 0;
     }
@@ -96,12 +95,6 @@ public class UserMain {
         this.userSales = userSales;
     }
 
-    public Random getRand() {
-        return rand;
-    }
 
-    public void setRand(Random rand) {
-        this.rand = rand;
-    }
 }
 

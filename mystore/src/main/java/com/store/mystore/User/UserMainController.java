@@ -32,6 +32,22 @@ public class UserMainController {
         return this.userMainServices.changePassword(id, req.get("newPassword"));
     }
 
+    @GetMapping(path = "get_user/{id}")
+    public String checkUser(@PathVariable long id){
+        return this.userMainServices.getUser(id);
+    }
+
+
+    @PostMapping(path="login")
+    public String login(@RequestBody UserMain user) {
+        return this.userMainServices.login(user.getUsername(), user.getPasswords());
+    }
+
+    @DeleteMapping(path = "delete_user/{id}")
+    public String delete(@PathVariable long id) {
+        return this.userMainServices.removeUser(id);
+
+    }
 
 
 }

@@ -1,6 +1,8 @@
 package com.store.mystore.Product;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
@@ -10,6 +12,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(path="product/")
+@Controller
 public class ProductController {
     private final ProductServices productServices;
 
@@ -17,10 +20,8 @@ public class ProductController {
     public ProductController(ProductServices productServices) {
         this.productServices = productServices;
     }
-    @GetMapping
-    public List<Product> getProducts() {
-        return this.productServices.getProducts();
-    }
+
+
 
     @PostMapping(path = "add_product")
     public String addProduct(@RequestBody Map<String, Object> obj) {

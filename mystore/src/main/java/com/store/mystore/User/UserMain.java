@@ -2,8 +2,6 @@ package com.store.mystore.User;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Locale;
-import java.util.Random;
 
 @Entity
 @Table
@@ -58,6 +56,7 @@ public class UserMain {
     public String getPassword() {
         return password;
     }
+    public String getPasswords(){return password;}
 
     public void setPassword(String password) {
         this.password = password;

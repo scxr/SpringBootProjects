@@ -1,0 +1,4 @@
+<ul th:each="product : ${products}">
+    <li th:text="${'name : ' + product.getProductName()}"> </li>
+    <li th:text="${'price : ' + product.getProductPrice()}"></li>
+</ul>

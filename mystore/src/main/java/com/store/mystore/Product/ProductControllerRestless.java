@@ -3,12 +3,12 @@ package com.store.mystore.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class ProductControllerRestless {
@@ -38,11 +38,37 @@ public class ProductControllerRestless {
     public String registerProduct(Model model, @ModelAttribute("product") Product product){
         try {
             this.productServices.addProduct(product);
-            return "success";
+            return getProducts(model);
         } catch (Exception e) {
             model.addAttribute("error", e);
             return "fail";
         }
+    }
+    @GetMapping("edit_product")
+    public String editProductGet(Model model) {
+        Product tmp = new Product();
+        model.addAttribute("product", tmp);
+        return "editProduct";
+    }
 
+    @PostMapping("edit_product")
+    @Transactional
+    public String editProduct(@ModelAttribute("productPrice") Double newPrice, @ModelAttribute("id") long id, Model model) {
+
+        String r = this.productServices.updatePrice(id, newPrice);
+
+        return getProducts(model);
+    }
+
+    @GetMapping("delete_product")
+    public String deleteProductGet(Model model) {
+        model.addAttribute("product", new Product());
+        return "deleteProduct";
+    }
+
+    @PostMapping("delete_product")
+    public String deleteProduct(@ModelAttribute("id") long id, Model model) {
+        this.productServices.deleteProduct(id);
+        return getProducts(model);
     }
 }

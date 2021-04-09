@@ -1,4 +1,6 @@
 <ul th:each="product : ${products}">
+    <li th:text="${'id : ' + product.getProductId()}"></li>
     <li th:text="${'name : ' + product.getProductName()}"> </li>
     <li th:text="${'price : ' + product.getProductPrice()}"></li>
+    <a href="/edit_product">Edit</a>
 </ul>

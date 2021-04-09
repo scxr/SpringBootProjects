@@ -68,6 +68,7 @@ public class Product {
         this.creationDate = creationDate;
     }
 
+    public long getProductId(){return id;}
 
     public void setId(Long id) {
         this.id = id;

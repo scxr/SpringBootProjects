@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
+@RequestMapping(path="products/") // prefix all urls with `products/`
 public class ProductControllerRestless {
     private final ProductServices productServices;
 

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <ul th:each="user : ${users}">
+        <li th:text="${'id : ' + user.getUserID()}"></li>
+        <li th:text="${'username : ' + user.getUsername()}"></li>
+        <li th:text="${'password : ' + user.getPassword()}"></li>
+    </ul>
+</body>
+</html>

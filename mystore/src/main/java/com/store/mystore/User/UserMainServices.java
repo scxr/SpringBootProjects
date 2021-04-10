@@ -1,13 +1,23 @@
 package com.store.mystore.User;
 
 import com.store.mystore.Product.ProductRepository;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.io.Encoders;
+import io.jsonwebtoken.security.Keys;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
+import javax.crypto.SecretKey;
 import javax.transaction.Transactional;
 import java.nio.charset.StandardCharsets;
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +26,11 @@ import java.util.Optional;
 public class UserMainServices {
 //    private static final List<UserMain> users = new ArrayList<UserMain>();
     private final UserMainRepository userMainRepository;
+
+    @Bean
+    public BcryptPasswordEncoder bcryptPasswordEncoder() {
+        return new BcryptPasswordEncoder();
+    }
 
     @Autowired
     public UserMainServices (UserMainRepository userMainRepository) {
@@ -56,7 +71,8 @@ public class UserMainServices {
     @Transactional
     public String changePassword(long id, String password) {
         try {
-            this.userMainRepository.changePassword(password, id);
+            String hashedPword = DigestUtils.md5DigestAsHex(password.getBytes(StandardCharsets.UTF_8));
+            this.userMainRepository.changePassword(hashedPword, id);
             return "Password changed";
         } catch (Exception e) {
             return "Something went wrong" + e;
@@ -83,7 +99,21 @@ public class UserMainServices {
             }
         }
         return "User not found";
-     }
+    }
 
+    public String generateJwt(String username, String key) {
+        SecretKey mykey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(key));
+        return Jwts.builder().setSubject(username).signWith(mykey).compact();
+    }
+
+    public String decodeJwt(String key, String jwts){
+        SecretKey mykey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(key));
+        Claims r = Jwts.parserBuilder()
+                .setSigningKey(mykey)
+                .build()
+                .parseClaimsJws(jwts)
+                .getBody();
+        return r.get("sub").toString();
+    }
 
 }

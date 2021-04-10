@@ -5,7 +5,7 @@
     <title>Title</title>
 </head>
 <body>
-<form action="#" th:action="@{/register_product}" method="post" th:object="${product}">
+<form action="#" th:action="@{/products/register_product}" method="post" th:object="${product}">
     <label>Product name<label>
         <input type="text" th:field="*{productName}"/> <br/>
         <label>Product price<label>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:action="@{/addpixel}" method="post" th:object="${pixel}">
+  <input type="text" th:field="*{xval}" placeholder="X val">
+  <input type="text" th:field="*{yval}" placeholder="Y val">
+    <input type="text" th:field="*{rgb}" placeholder="rbg (eg: 255100200)">
+
+  <button type="submit">submit</button>
+</form>
+<p>Current image : </p>
+<img src="../static/main.bmp" th:src="@{main.bmp}"/>
+
+</body>
+</html>

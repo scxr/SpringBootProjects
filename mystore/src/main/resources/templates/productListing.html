@@ -2,5 +2,8 @@
     <li th:text="${'id : ' + product.getProductId()}"></li>
     <li th:text="${'name : ' + product.getProductName()}"> </li>
     <li th:text="${'price : ' + product.getProductPrice()}"></li>
-    <a href="/edit_product">Edit</a>
+    <li th:text="${'owner : ' + product.getProductOwner()}"></li>
+    <div th:if="${product.getProductName()== userRequesting}">
+        <a href="/products/edit_product">edit</a>
+    </div>
 </ul>

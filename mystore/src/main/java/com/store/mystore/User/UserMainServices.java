@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import javax.crypto.SecretKey;
+import javax.servlet.http.Cookie;
 import javax.transaction.Transactional;
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
@@ -114,6 +115,15 @@ public class UserMainServices {
                 .parseClaimsJws(jwts)
                 .getBody();
         return r.get("sub").toString();
+    }
+
+    public String returnUser(Cookie[] cookies, String jwt_key) {
+        for (Cookie cookie: cookies) {
+            if (cookie.getName().equals("auth") & !cookie.getValue().equals("")) {
+                return decodeJwt(jwt_key, cookie.getValue());
+            }
+        }
+        return "na";
     }
 
 }

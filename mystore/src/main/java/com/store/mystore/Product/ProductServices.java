@@ -19,8 +19,14 @@ public class ProductServices {
     public List<Product> getProducts() {
         return this.productRepository.findAll();
     }
-    public String addProduct(Product product) {
-
+    public String addProduct(Product product, String owner) {
+        product.setProductOwner(owner);
+        List<Product> userProducts = this.productRepository.getUserProducts(owner);
+        for (Product productL: userProducts) {
+            if (productL.getProductName().equals(product.getProductName())) {
+                return "Already have product with this name";
+            }
+        }
         this.productRepository.save(product);
         return "Added";
     }
@@ -48,9 +54,24 @@ public class ProductServices {
         return "";
     }
 
-    public String updatePrice(long id, Double productPrice) {
+    public String updatePrice(long id, Double productPrice,String user) {
+        boolean isEditable = false;
+        List<Product> userProducts = this.productRepository.getUserProducts(user);
+        for (Product product: userProducts) {
+            if(product.getId() == id) {
+                isEditable = true;
+                break;
+            }
+        }
+        if (!isEditable) {
+            return "Wrong user";
+        }
         this.productRepository.updateProductById(productPrice, id);
         return "Updated";
+    }
+
+    public List<Product> fetchUserProducts(String user){
+        return this.productRepository.getUserProducts(user);
     }
 
 

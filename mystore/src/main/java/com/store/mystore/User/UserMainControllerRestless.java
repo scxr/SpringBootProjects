@@ -80,11 +80,12 @@ public class UserMainControllerRestless {
 
     @PostMapping("login")
     public String login(Model model, @ModelAttribute("user") UserMain userMain, HttpServletResponse response) throws IOException {
-
         String rsp = this.userMainServices.login(userMain.getUsername(), userMain.getPassword());
         if (rsp.equals("login successful")) {
             String jwt = this.userMainServices.generateJwt(userMain.getUsername(), this.key);
             Cookie cookie = new Cookie("auth", jwt);
+            cookie.setMaxAge(4000);
+            cookie.setPath("/");
             response.addCookie(cookie);
             return "success";
         } else {
@@ -96,19 +97,29 @@ public class UserMainControllerRestless {
     @GetMapping("protected")
     public String protectedEndpoint(HttpServletRequest request, Model model) {
         Cookie[] cookies = request.getCookies();
-        String user="";
-        if (cookies!=null) {
-            for (Cookie cookie: cookies) {
-                if (cookie.getName().equals("auth")) {
-                    user = this.userMainServices.decodeJwt(this.key, cookie.getValue());
-                }
-                System.out.println(cookie.getValue());
-            }
-            model.addAttribute("cookies", user);
-            return "protected";
+        String user = this.userMainServices.returnUser(cookies, this.key);
+        if (user.equals("na")) {
+            model.addAttribute("error", "You need to be signed in to view that page");
+            return loginGet(model);
         } else {
-            return "fail";
+            model.addAttribute("user", user);
+            return "protected";
         }
+    }
+
+    @GetMapping("logout")
+    public String logout(HttpServletRequest request, HttpServletResponse response, Model model) {
+        Cookie[] cookies = request.getCookies();
+        for (Cookie cookie: cookies) {
+            if(cookie.getName().equals("auth")) {
+                cookie.setValue("");
+                cookie.setPath("/");
+                cookie.setMaxAge(0);
+                response.addCookie(cookie);
+                break;
+            }
+        }
+        return loginGet(model);
     }
 
 }

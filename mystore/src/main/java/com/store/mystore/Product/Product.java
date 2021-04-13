@@ -23,16 +23,18 @@ public class Product {
             generator = "product_sequence"
     )
     private Long id;
+    private String  productOwner=null;
     private String productName = null;
     private double productPrice = 0;
     private LocalDate creationDate;
 
     Random rand = new Random();
 
-    public Product(String productName, double productPrice) {
+    public Product(String productName, double productPrice, String productOwner) {
         this.creationDate = LocalDate.now();
         this.productName = productName;
         this.productPrice = productPrice;
+        this.productOwner = productOwner;
     }
 
     public Product(Long id, String productName, double productPrice) {
@@ -72,6 +74,14 @@ public class Product {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getProductOwner() {
+        return productOwner;
+    }
+
+    public void setProductOwner(String productOwner) {
+        this.productOwner = productOwner;
     }
 
     @Override

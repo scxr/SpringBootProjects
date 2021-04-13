@@ -5,9 +5,11 @@
     <title>Title</title>
 </head>
 <body>
-    <form th:action="@{/edit_product}" th:method="POST" th:object="${product}">
+    <form th:action="@{/products/edit_product}" th:method="POST" th:object="${product}">
         <input type="text" th:field="*{productPrice}">
-        <input type="text" th:field="*{id}">
+        <select th:field="*{id}">
+            <option th:each="product: ${products}" th:value="${product.getId()}" th:text="${product.getId()}"></option>
+        </select>
         <button type="submit">Submit</button>
     </form>
 </body>
